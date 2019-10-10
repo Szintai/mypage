@@ -10,7 +10,7 @@
 
 <div layout:fragment="loginContent">
 
-<form name="registration" method=post th:action="@{/reg}" th:object="${user}">
+<form name="registration" method=post th:action="@{/reg}" th:object="${user}" onsubmit="return validation()">
 <table>
 <tr><td>Email cím</td>
 <td><input type="text" name="email" th:field="*{email}" placeholder="Email cím"/> </td></tr>
@@ -24,10 +24,81 @@
 <td><input type="password" name="password2" placeholder="Jelszó mégegyszer" /> </td> </tr>
 <tr><td></td>
 <td><input type="submit" name="submit" value="Regisztrálok" /></td></tr>
+<tr><td><textarea name="errorMessage"> </textarea></td> 
+</tr>
 </table>
 </form>
 
+<script type="text/javascript">
 
+function validation(){
+	
+	var email=document.forms["registration"]["email"];
+	var firstName=document.forms["registration"]["firstName"];
+	var lastName=document.forms["registration"]["lastName"];
+	var password=document.forms["registration"]["password"];
+	var password2=document.forms["registration"]["password2"];
+	var errorMessage=document.forms["registration"]["errorMessage"];
+	
+	
+	errorMessage.value= "";
+	
+	if(email.value == "")
+	{
+		
+		errorMessage.value = "Adj meg email címet.";
+		return false;
+	}
+	
+	 if (email.value.indexOf("@", 0) < 0)                 
+	    { 
+		 
+		 errorMessage.value = "Valós email címet adj meg.";
+			return false;
+	    }
+	 
+	 if (email.value.indexOf(".", 0) < 0)   { 
+		 
+		 errorMessage.value = "Valós email címet adj meg.";
+			return false;
+	    }
+		 
+		 
+	
+	if(firstName.value == "")
+	{
+		
+		errorMessage.value += "Adj meg keresztnevet.";
+		return false;
+	}
+	
+	if(lastName.value == "")
+	{
+		
+		errorMessage.value = "Adj meg vezetéknevet.";
+		return false;
+	}
+	
+	
+	
+	if(password.value != password2.value)
+	{
+		
+		errorMessage.value = "Nem egyezik a két jelszó.";
+		return false;
+	}
+	
+	if(password.value == "" ||  password2.value == "")
+	{
+		
+		errorMessage.value = "Adj meg jelszót.";
+		return false;
+	}
+	
+	
+}
+
+</script>
 
 </div>
 </body>
