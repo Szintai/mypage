@@ -30,14 +30,14 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping("/login")
+/*	@RequestMapping("/login")
 	public String login()
 	{
 		
 		
 		return "auth/login";
 	}
-	
+	*/
 	
 	
 	@RequestMapping("/registration")
