@@ -1,0 +1,7 @@
+insert into users(id,email, first_name, last_name, password) values(1,'szintaik@gmail.com', 'Kristóf', 'Szintai', 'password');
+
+
+insert into roles(id,role) values(1,'ADMIN');
+
+
+insert into users_roles(user_id, role_id)values(1,1);

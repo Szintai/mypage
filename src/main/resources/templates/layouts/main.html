@@ -19,8 +19,14 @@
 <div>
 <nav class="menu-bar">
 <a href="/">Kezdőoldal</a>
-<a href="/login">Bejelentkezés</a>
-<a href="/registration">Regisztráció</a>
+<a sec:authorize="!isAuthenticated()" href="/login">Bejelentkezés</a>
+<sec:authorize access="hasRole('admin')"><a href="/registration">Regisztráció</a> </sec:authorize>
+<form sec:authorize="isAuthenticated()" id="frmLogout" th:action="@{/logout}" method="post">
+<a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelelentkezés</a>
+Üdvözlünk: <span sec:authentication="name">Anonymous</span>
+</form>
+
+
 </nav>
 </div>
 

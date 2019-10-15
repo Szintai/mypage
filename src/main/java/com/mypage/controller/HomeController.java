@@ -15,35 +15,32 @@ import com.mypage.service.UserService;
 @Controller
 public class HomeController {
 
-	@Autowired
-	UserService userService;
+	
+	private UserService userService;
 	
 	private final Logger log=LoggerFactory.getLogger(this.getClass());
 	
 	
+
+    @Autowired
+	public HomeController(UserService userService) {
+	
+		this.userService = userService;
+	}
+
+
+
 	@RequestMapping("/")
 	public String index()
 	{
-		
-		saveUser();
 		return "index";
 	}
-	
-	
-/*	@RequestMapping("/login")
-	public String login()
-	{
-		
-		
-		return "auth/login";
-	}
-	*/
+
 	
 	
 	@RequestMapping("/registration")
 	public String registration(Model model)
 	{
-		
 		model.addAttribute("user", new User());
 		return "registration";
 	}
@@ -55,18 +52,17 @@ public class HomeController {
 		log.info("új user");
 		log.info(user.getEmail());
 		
-		userService.addNewUser(user);
+		userService.registerUser(user);
 		
 		return "auth/login";
 		
 	}
 	
-	public void saveUser() {
-		
-		userService.init();
-		
-	}
 	
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 	
 	
 	
