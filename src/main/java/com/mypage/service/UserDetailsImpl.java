@@ -13,14 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.mypage.entity.User;
 import com.mypage.entity.Role;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3185970362329652822L;
+
 	private User user;
-	
+
 	public UserDetailsImpl(User user) {
 		this.user = user;
 	}
@@ -37,39 +35,35 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		
-		  PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder(); 
-	        return encoder.encode(this.user.getPassword());
+		  return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		
 		return user.getEmail();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
+		return user.getEnabled();
 	}
-
+	
+	
+	
+	
 }

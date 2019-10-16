@@ -1,7 +1,5 @@
 package com.mypage.service;
 
-import javax.management.relation.RoleResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,84 +14,66 @@ import com.mypage.repository.RoleRepository;
 import com.mypage.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserDetailsService , UserService{
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	
-	private UserRepository userRepo;
-	
-	private RoleRepository roleRepo;
-	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+	private UserRepository userRepository;
+
+	private RoleRepository roleRepository;
+
 	private final String USER_ROLE = "USER";
-	
-	private final Logger log=LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	public void setUserRepo(UserRepository userRepo) {
-		this.userRepo = userRepo;
-	}
-	
 
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
- 
-		
-		log.info("semmi"+username);
-		
 		User user = findByEmail(username);
-		
-		log.info(user.getEmail());
+		if (user == null) {
+			throw new UsernameNotFoundException(username);
+		}
 
-		if(user == null)
-		{throw new UsernameNotFoundException(username);}
-			
 		return new UserDetailsImpl(user);
 	}
-	
-	
+
+	@Override
 	public User findByEmail(String email) {
-		
-		
-		return userRepo.findByEmail(email);
+		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public String registerUser(User userToRegister) {
-		
-		User userCheck = userRepo.findByEmail(userToRegister.getEmail());
-		
-		if(userCheck != null)
-		{
-		  return "alreadyExists";	
-		}
-		try {
-		Role userRole =  roleRepo.findByRole(USER_ROLE);
-		
-		
-		if(userRole != null)
-		{
+		User userCheck = userRepository.findByEmail(userToRegister.getEmail());
+
+		if (userCheck != null)
+			return "alreadyExists";
+
+		Role userRole = roleRepository.findByRole(USER_ROLE);
+		if (userRole != null) {
+			log.info("új role");
 			userToRegister.getRoles().add(userRole);
-		}else {
+			
+		} else {
+			log.info("létező role");
 			userToRegister.addRoles(USER_ROLE);
 		}
-			
-		}catch(Exception ex) {}
 		
-		userToRegister.setEnabled(false);
-			
-		userRepo.save(userToRegister);
+		userToRegister.setEnabled(true);
+	
+		userRepository.save(userToRegister);
 		
-		
-		
-		
+
 		return "ok";
 	}
 
-	@Override
-	public String userActivation(String code) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+
+	
 	
 	
 	

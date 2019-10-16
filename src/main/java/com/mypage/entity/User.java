@@ -4,49 +4,47 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
-
-
-import com.mypage.entity.Role;
+import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
-@Table(name ="users")
+@Table( name = "users")
 public class User {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	 @GenericGenerator(name = "native", strategy = "native")
 	private Long id;
 	
 	private String firstName;
 	
 	private String lastName;
 	
-	@Column( unique=true , nullable=false)
 	private String email;
 	
-	@Column(nullable = false)
 	private String password;
 	
-	@ManyToMany( cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(
-			name="users_roles",
-			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "role_id")}	
-			)
+	@ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+	@JoinTable( 
+		name = "users_roles", 
+		joinColumns = {@JoinColumn(name="user_id")}, 
+		inverseJoinColumns = {@JoinColumn(name="role_id")}  
+	)
 	private Set<Role> roles = new HashSet<Role>();
 	
-    private String activation;
+ //   private String activation;
 	
 	private Boolean enabled;
+	
 	
 	public User() {}
 	
@@ -68,13 +66,9 @@ public class User {
 	}
 
 
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 
 	public String getFirstName() {
@@ -82,13 +76,9 @@ public class User {
 	}
 
 
-
-
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
-
 
 
 	public String getLastName() {
@@ -96,13 +86,9 @@ public class User {
 	}
 
 
-
-
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-
 
 
 	public String getEmail() {
@@ -110,20 +96,14 @@ public class User {
 	}
 
 
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 
-
-
 	public String getPassword() {
 		return password;
 	}
-
-
 
 
 	public void setPassword(String password) {
@@ -145,27 +125,41 @@ public class User {
 	}
 
 
+
+
+/*	public String getActivation() {
+		return activation;
+	}
+
+
+
+
+	public void setActivation(String activation) {
+		this.activation = activation;
+	}*/
+
+
+
+
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
+
+
+
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-
-	public String getActivation() {
-		return activation;
-	}
-
-	public void setActivation(String activation) {
-		this.activation = activation;
-	}
-
+	
 	public void addRoles(String roleName) {
 		if (this.roles == null || this.roles.isEmpty()) 
 			this.roles = new HashSet<>();
 		this.roles.add(new Role(roleName));
 	}
+	
+	
+	
 	
 	
 	

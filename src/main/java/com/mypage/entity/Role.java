@@ -1,39 +1,35 @@
 package com.mypage.entity;
 
-
-
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import com.mypage.entity.User;
 
 
 @Entity
 @Table(name = "roles")
 public class Role {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private String role;
+	
 	
 	@ManyToMany( mappedBy= "roles")
 	private Set<User> users=new HashSet<User>();
 	
 	public Role() {}
-
+	
 	public Role(String role) {
 		this.role=role;
 	}
-	
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -57,8 +53,6 @@ public class Role {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-
-
 
 	
 	

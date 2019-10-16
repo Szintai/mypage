@@ -18,12 +18,9 @@
 
 <div>
 <nav class="menu-bar">
-<a  href="/">Kezdőoldal</a>
-<a sec:authorize="!isAuthenticated()" href="/login">Bejelentkezés</a>
-<a sec:authorize="!isAuthenticated()" href="/registration">Regisztráció</a>
-<form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post">
- <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelentkezés</a>
-</form>
+<a href="/">Kezdőoldal</a>
+<a href="/login">Bejelentkezés</a>
+<a href="/registration">Regisztráció</a>
 </nav>
 </div>
 
